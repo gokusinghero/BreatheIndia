@@ -10,17 +10,17 @@ const SECRET_VALUE_RE = /AIza[0-9A-Za-z\-_]{16,}|sk-[0-9A-Za-z\-_]{10,}|Bearer\s
 
 /**
  * Strip control characters and angle brackets, normalize whitespace, and clamp length.
+ * Does NOT trim — trimming should happen at submit time, not during onChange.
  * @param {unknown} input
- * @param {number} [maxLength=200]
+ * @param {number} [maxLength=80]
  * @returns {string}
  */
-export function sanitizeText(input, maxLength = 200) {
+export function sanitizeText(input, maxLength = 80) {
   if (typeof input !== "string") return "";
   return input
     .replace(/[\u0000-\u001F\u007F]/g, " ")
     .replace(/[<>]/g, "")
     .replace(/\s+/g, " ")
-    .trim()
     .slice(0, maxLength);
 }
 
@@ -132,10 +132,10 @@ export function saveStored(key, value) {
 
 /**
  * Remove all BreatheSafe India keys from localStorage (user data deletion control).
- * @param {string} [prefix="vg_"]
+ * @param {string} [prefix="ap_"]
  * @returns {number}
  */
-export function clearAllStored(prefix = "vg_") {
+export function clearAllStored(prefix = "ap_") {
   try {
     if (typeof localStorage === "undefined") return 0;
     const keysToRemove = [];
